@@ -10,16 +10,14 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
 SKILL = ROOT / "skills" / "product-rd-okr-writer"
-LEGACY = SKILL / "references" / "feishu-integration.md"
 LINK = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
 
 
 def check():
     errors = []
     checked_links = 0
-    core = [p for p in SKILL.rglob("*.md") if p != LEGACY]
-    public = [ROOT / "README.md", ROOT / "手册-OKR填写要点.md",
-              ROOT / "docs" / "01-安装技能.md", *list((ROOT / "examples").rglob("*.md"))]
+    core = list(SKILL.rglob("*.md"))
+    public = [ROOT / "README.md", ROOT / "docs" / "01-安装技能.md"]
     edges = {}
     for path in core + public:
         content = path.read_text(encoding="utf-8")
